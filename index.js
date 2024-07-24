@@ -1,4 +1,3 @@
-const fs = require("fs");
 const { parseFileToArr, createMessageObj } = require("./functions");
 
 
@@ -23,7 +22,7 @@ function parseFileContent(filePath) {
 
 const result = parseFileContent("test.txt");
 
-console.log(result[0].messages);
+console.log(result);
 
 
 

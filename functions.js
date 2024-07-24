@@ -1,3 +1,5 @@
+const fs = require("fs");
+
 const trashMessage = (mes) => {
     mes = mes.trim();
     return isMediaOmittedMessage(mes) ||
