@@ -13,10 +13,11 @@ const isThanksMessage = (mes = '') => {
         (mes.includes('תודה') && mesLength < 3)
 }
 
-const isDeletedMessage = (mes) => {
-    return mes === 'This message was deleted\r\n';
+const isDeletedMessage = (mes = '') => {
+    return mes.includes('This message was deleted')
 }
+
 const isMediaOmittedMessage = (mes) => {
-    return mes.charAt(mes.length - 3) === '>';
+    return mes.includes('<Media omitted>')
 }
 module.exports = { trashMessage }
