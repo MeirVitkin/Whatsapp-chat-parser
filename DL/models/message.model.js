@@ -1,17 +1,12 @@
-const mongoose = require("mongoose");
-
-
+import mongoose from 'mongoose';
 
 const messagesSchema = new mongoose.Schema({
-    // sender:{
-    //     type
-    // }
-    // sender, messages: [{ date, message }], isQuestion
-   
+    sender: { type: String, require: true },
+    messages: [{ date: { type: String, require: true }, message: { type: String, require: true } }],
+    isQuestion: { type: Boolean, require: true },
+    isEdited: { type: Boolean, default: false },
 
 });
 
 
-const chatModel = mongoose.model('tempMessages', messagesSchema)
-
-module.exports = chatModel;
+export const messageModel  = mongoose.model('tempMessages', messagesSchema)
