@@ -1,4 +1,4 @@
-const { parseFileToArr, createMessageObj } = require("./functions");
+import { parseFileToArr, createMessageObj } from "./functions.js";
 
 
 

@@ -1,4 +1,4 @@
-const fs = require("fs");
+import fs from "fs";
 
 const trashMessage = (mes) => {
     mes = mes.trim();
@@ -22,13 +22,13 @@ const isMediaOmittedMessage = (mes) => {
     return mes.includes('<Media omitted>') && mes.split(" ").length === 2;
 }
 
-const parseFileToArr = (filePath) => {
+export const parseFileToArr = (filePath) => {
     const fileContent = fs.readFileSync(filePath, "utf8");
     const regex = /(\d{1,2}\/\d{1,2}\/\d{2,4}, \d{2}:\d{2}) - /g;
     return fileContent.split(regex).filter(Boolean);
 }
 
-const createMessageObj = (date, messageContent) => {
+export const createMessageObj = (date, messageContent) => {
     const regex = /([^:]+):\s*/;
     const match = messageContent.match(regex);
     if (!match) return
@@ -38,5 +38,3 @@ const createMessageObj = (date, messageContent) => {
     if (trashMessage(message)) return
     return { sender, messages: [{ date, message }], isQuestion }
 }
-
-module.exports = { parseFileToArr, createMessageObj }
