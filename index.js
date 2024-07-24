@@ -7,30 +7,29 @@ function parseFileContent(filePath) {
   const lines = fileContent.split(regex).filter(Boolean);
   const arr = [];
 
-  for (let i = 0; i < lines.length; i++) {
+  // for (let i = 0; i < lines.length; i+=2) {
 
-    if (i % 2 === 0) {
-      const date = arrRef[i];
-      const messageContent = arrRef[i + 1];
-      const regex = /([^:]+):\s*/;
-      const match = messageContent.match(regex);
+  //     const date = lines[i];
+  //     const messageContent = lines[i + 1];
+  //     const regex = /([^:]+):\s*/;
+  //     const match = messageContent.match(regex);
 
-    }
+    
 
-    if (match) {
-      const sender = match[1];
-      const message = messageContent.slice(match[0].length);
+  //   if (match) {
+  //     const sender = match[1];
+  //     const message = messageContent.slice(match[0].length);
 
-      if (trashMessage(message)) break;
+  //     if (trashMessage(message)) break;
 
-      const isQuestion = sender !== 'הרב ברוך אפרתי, (טאטע)';
+  //     const isQuestion = sender !== 'הרב ברוך אפרתי, (טאטע)';
 
-      arr.push({ date, sender, message, isQuestion });
+  //     arr.push({ date, sender, message, isQuestion });
 
-    }
+  //   }
+  // }
 
-
-  }
+  // return arr;
 
   return lines.reduce((arr, _, i, arrRef) => {
     if (i % 2 === 0) {
