@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const messagesSchema = new mongoose.Schema({
+const whatsappMessageSchema = new mongoose.Schema({
     date: { type: Date, required: true },
     sender: { type: String },
     message: { type: String, required: true },
@@ -10,4 +10,4 @@ const messagesSchema = new mongoose.Schema({
 }, { timestamps: true });
 
 
-export const messageModel = mongoose.model('tempMessages', messagesSchema)
+export const whatsappMessagesModel = mongoose.model('whatsappMessage', whatsappMessageSchema)
