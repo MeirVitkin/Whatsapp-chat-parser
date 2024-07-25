@@ -1,11 +1,11 @@
-export const parseFileContent = (fileContent) => {
+export const parseFileContent = (fileContent, rav) => {
     const lines = parseFileToArr(fileContent),
         arr = [];
 
     for (let i = 0; i < lines.length; i += 2) {
         const date = new Date(lines[i]);
         const messageContent = lines[i + 1];
-        const result = createMessageObj(date, messageContent)
+        const result = createMessageObj(date, messageContent, rav)
 
         if (result) arr.push(result);
     }
@@ -42,11 +42,11 @@ export const parseFileToArr = (fileContent) => {
     return fileContent.split(regex).filter(Boolean);
 }
 
-export const createMessageObj = (date, messageContent) => {
+export const createMessageObj = (date, messageContent, rav) => {
     const match = messageContent.split(":")
     if (match.length == 1) return
     const sender = match[0];
-    const isQuestion = sender !== 'הרב ברוך אפרתי, (טאטע)';
+    const isQuestion = sender !== (rav || 'הרב ברוך אפרתי, (טאטע)');
     const message = match.slice(1).join("");
     if (isQuestion && trashMessage(message)) return
     let res = { date, message, isQuestion }
