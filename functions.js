@@ -1,5 +1,13 @@
 const fs = require("fs");
 
+
+
+
+const isSamesender = (result, nextMessage) => {
+    return result.isQuestion&& nextMessage.includes(result.sender)
+}
+
+
 const trashMessage = (mes) => {
     mes = mes.trim();
     return isMediaOmittedMessage(mes) ||
@@ -29,7 +37,7 @@ const parseFileToArr = (filePath) => {
     return fileContent.split(regex).filter(Boolean);
 }
 
-const createMessageObj = (date, messageContent) => {
+const createMessageObj = (date, messageContent, lastObject) => {
     const regex = /([^:]+):\s*/;
     const match = messageContent.match(regex);
     if (!match) return
@@ -37,7 +45,13 @@ const createMessageObj = (date, messageContent) => {
     const message = messageContent.slice(match[0].length);
     const isQuestion = sender !== 'הרב ברוך אפרתי, (טאטע)';
     if (trashMessage(message)) return
+
+    if (lastObject) {
+         lastObject.messages.push({ date, message })
+         return
+    }
+
     return { sender, messages: [{ date, message }], isQuestion }
 }
 
-module.exports = { parseFileToArr, createMessageObj }
+module.exports = { parseFileToArr, createMessageObj, isSamesender }
