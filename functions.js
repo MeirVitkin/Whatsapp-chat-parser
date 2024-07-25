@@ -51,4 +51,6 @@ export const createMessageObj = (date, messageContent, rav) => {
     if (isQuestion && trashMessage(message)) return
     let res = { date, message, isQuestion }
     if (isQuestion) res.sender = sender
+
+    return res
 }

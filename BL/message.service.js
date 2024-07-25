@@ -7,5 +7,3 @@ export const createMessageService = (fileContent, rav, startDate, endDate) => cr
 
 export const readMessagesService = (filter) => read(filter);
 export const readMessageService = (filter) => readOne(filter);
-
-
