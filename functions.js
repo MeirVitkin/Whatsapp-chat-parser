@@ -1,5 +1,5 @@
-export const parseFileContent = (fileContent, rav) => {
-    const lines = parseFileToArr(fileContent),
+export const parseFileContent = (fileContent, rav, startDate) => {
+    const lines = parseFileToArr(fileContent, startDate),
         arr = [];
 
     for (let i = 0; i < lines.length; i += 2) {
@@ -37,10 +37,39 @@ const isMediaOmittedMessage = (mes) => {
     return mes.includes('<Media omitted>') && mes.split(" ").length === 2;
 }
 
-export const parseFileToArr = (fileContent) => {
+export const parseFileToArr = (fileContent, startDate) => {
     const regex = /(\d{1,2}\/\d{1,2}\/\d{2,4}, \d{2}:\d{2}) - /g;
-    return fileContent.split(regex).filter(Boolean);
+    let lines = fileContent.split(regex).filter(Boolean);
+    if (startDate) {
+        const startIndex = createNewBuffer(lines, startDate);
+        lines = lines.slice(startIndex-4);
+    }
+    return lines;
 }
+
+
+const createNewBuffer = (lines, startDate) => {
+    let rigth = lines.length - 1;
+    let left = 0;
+    while (left < rigth) {
+        let current = Math.floor((rigth + left) / 2);
+        if (current % 2 === 1) current++;
+        const comparison = comperDate(lines[current], startDate);
+        if (comparison === 0) return current;
+        if (comparison === -1) left = current;
+        else rigth = current;
+    }
+};
+
+
+const comperDate = (lineDate, startDate) => {
+    const line = new Date(lineDate);
+    const start = new Date(startDate);
+    if (line < start) return -1;
+    else if (line > start) return 1;
+    else return 0;
+}
+
 
 export const createMessageObj = (date, messageContent, rav) => {
     const match = messageContent.split(":")
