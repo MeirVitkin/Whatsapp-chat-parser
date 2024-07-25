@@ -10,19 +10,19 @@ router.post('/uploadData', upload.single('file'), async (req, res) => {
     try {
         if (!req.file) throw ({ code: 400, msg: 'No file uploaded' })
         if (!req.file.mimetype === 'text/plain') throw ({ code: 400, msg: 'The file is a text file' })
-        const {rav, startDate, endDate} = req.body;
+
         const fileContent = req.file.buffer.toString('utf-8');
-        await createMessageService(fileContent,rav, startDate, endDate);
-        res.send({ result: 'ok' })
+        const result = createMessageService(fileContent);
+        res.send(result)
 
     } catch (err) {
         res.status(err.code || 405).send(err.msg || err.message || "wrong");
     }
 });
-router.get('/',async (req, res)=>{
+router.post('/',async (req, res)=>{
     try {
-        // const { from, to, limit } = req.body;
-        const result = await readMessagesService();
+        const { from, to, limit } = req.body;
+        const result = await readMessagesService({from, to, limit});
         res.send(result)
 
     } catch(err){
