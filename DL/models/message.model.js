@@ -1,10 +1,10 @@
 import mongoose from 'mongoose';
 
 const messagesSchema = new mongoose.Schema({
-    date: { type: Date, require: true },
+    date: { type: Date, required: true },
     sender: { type: String },
-    messages: { type: String, require: true },
-    isQuestion: { type: Boolean, require: true },
+    message: { type: String, required: true },
+    isQuestion: { type: Boolean, required: true },
     isEdited: { type: Boolean, default: false },
 
 }, { timestamps: true });
