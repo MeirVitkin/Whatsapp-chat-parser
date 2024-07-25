@@ -1,7 +1,7 @@
-import { messageModel } from "../models/message.model.js"
+import { whatsappMessagesModel } from "../models/message.model.js"
 
-export const create = (message) => messageModel.create(message)
-export const read = (filter) => messageModel.find(filter)
-export const readOne = (filter) => messageModel.findOne(filter)
-export const update = (id, data) => messageModel.findByIdAndUpdate({ _id: id }, data, { new: true })
-export const del = (id) => messageModel.deleteOne({ _id: id })
+export const create = (message) => whatsappMessagesModel.create(message)
+export const read = (filter) => whatsappMessagesModel.find(filter)
+export const readOne = (filter) => whatsappMessagesModel.findOne(filter)
+export const update = (id, data) => whatsappMessagesModel.findByIdAndUpdate({ _id: id }, data, { new: true })
+export const del = (id) => whatsappMessagesModel.deleteOne({ _id: id })
