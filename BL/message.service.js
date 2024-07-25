@@ -19,5 +19,3 @@ export const readMessagesService = (filter = {}) => {
 };
 
 export const readMessageService = (filter) => readOne(filter);
-
-
