@@ -1,4 +1,16 @@
-import fs from "fs";
+export const parseFileContent = (fileContent) => {
+    const lines = parseFileToArr(fileContent),
+        arr = [];
+
+    for (let i = 0; i < lines.length; i += 2) {
+        const date = new Date(lines[i]);
+        const messageContent = lines[i + 1];
+        const result = createMessageObj(date, messageContent)
+
+        if (result) arr.push(result);
+    }
+    return arr
+}
 
 const trashMessage = (mes) => {
     mes = mes.trim();
@@ -8,12 +20,15 @@ const trashMessage = (mes) => {
 }
 
 const isThanksMessage = (mes = '') => {
+    //  length <=14 >> includes thanks
+
     const mesLength = mes.split(" ").length;
     return (mes.includes('תודה רבה') && mesLength < 4) ||
         (mes.includes('תודה הרב') && mesLength < 4) ||
         (mes.includes('תודה רבה הרב') && mesLength < 5) ||
         (mes.includes('תודה') && mesLength < 3)
 }
+
 
 const isDeletedMessage = (mes) => {
     return mes === 'This message was deleted\r\n';
@@ -22,19 +37,20 @@ const isMediaOmittedMessage = (mes) => {
     return mes.includes('<Media omitted>') && mes.split(" ").length === 2;
 }
 
-export const parseFileToArr = (filePath) => {
-    const fileContent = fs.readFileSync(filePath, "utf8");
+export const parseFileToArr = (fileContent) => {
     const regex = /(\d{1,2}\/\d{1,2}\/\d{2,4}, \d{2}:\d{2}) - /g;
     return fileContent.split(regex).filter(Boolean);
 }
 
 export const createMessageObj = (date, messageContent) => {
-    const regex = /([^:]+):\s*/;
-    const match = messageContent.match(regex);
-    if (!match) return
-    const sender = match[1];
-    const message = messageContent.slice(match[0].length);
+    const match = messageContent.split(":")
+    if (match.length == 1) return
+    const sender = match[0];
     const isQuestion = sender !== 'הרב ברוך אפרתי, (טאטע)';
-    if (trashMessage(message)) return
-    return { sender, messages: [{ date, message }], isQuestion }
+    const message = match.slice(1).join("");
+    if (isQuestion && trashMessage(message)) return
+    let res = { date, message, isQuestion }
+    if (isQuestion) res.sender = sender
+
+    return res
 }

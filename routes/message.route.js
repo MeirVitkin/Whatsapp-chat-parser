@@ -1,18 +1,25 @@
 import express from 'express';
+import multer, { memoryStorage } from 'multer'
+import { createMessageService } from '../BL/message.service.js';
 
-const router = express.Router();
+const router = express.Router(),
+    upload = multer({ storage: memoryStorage() });
 
-router.post('/:messageId', async (req, res) => {
+
+router.post('/uploadData', upload.single('file'), async (req, res) => {
     try {
-        const userEmail = req.body.user.email;
-        const messageId = req.params.messageId;
-        const isRead = req.body.isRead;
+        if (!req.file) throw ({ code: 400, msg: 'No file uploaded' })
+        if (!req.file.mimetype === 'text/plain') throw ({ code: 400, msg: 'The file is a text file' })
 
-        // const result = await messageService.updateIsReadMessage(userEmail, messageId, isRead);
-        res.send('result');
+        const fileContent = req.file.buffer.toString('utf-8');
+        const result = createMessageService(fileContent);
+        res.send(result)
+
     } catch (err) {
-        res.status(405).send(err.msg || err.message || "wrong");
+        res.status(err.code || 405).send(err.msg || err.message || "wrong");
     }
 });
 
 export default router;
+
+

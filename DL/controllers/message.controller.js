@@ -1,6 +1,6 @@
 import { messageModel } from "../models/message.model.js"
 
-export const create = (data) => messageModel.create(data)
+export const create = (message) => messageModel.create(message)
 export const read = (filter) => messageModel.find(filter)
 export const readOne = (filter) => messageModel.findOne(filter)
 export const update = (id, data) => messageModel.findByIdAndUpdate({ _id: id }, data, { new: true })

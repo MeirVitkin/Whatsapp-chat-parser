@@ -12,7 +12,6 @@ connect();
 app.use(cors());
 app.use(express.json());
 app.use('/messages', messageRoutes);
+const port = process.env.PORT || 5050;
 
-app.listen(5555, () => {
-    console.log("##### server is listening #####");
-});
+app.listen(port, () => console.log(`#### Server running on port ${port} ####`));
