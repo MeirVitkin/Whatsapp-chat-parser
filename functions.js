@@ -21,8 +21,8 @@ const trashMessage = (mes) => {
 
 const isThanksMessage = (mes = '') => {
     //  length <=14 >> includes thanks
-
-    const mesLength = mes.split(" ").length;
+    if (mes.length() > 14) return
+        const mesLength = mes.split(" ").length;
     return (mes.includes('תודה רבה') && mesLength < 4) ||
         (mes.includes('תודה הרב') && mesLength < 4) ||
         (mes.includes('תודה רבה הרב') && mesLength < 5) ||
