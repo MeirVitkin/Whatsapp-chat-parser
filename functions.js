@@ -1,3 +1,6 @@
+import fs from 'fs'
+const data = fs.readFileSync('./bigTest.txt', 'utf8');
+let conter =0;
 export const parseFileContent = (fileContent, rav) => {
     const lines = parseFileToArr(fileContent),
         arr = [];
@@ -9,6 +12,7 @@ export const parseFileContent = (fileContent, rav) => {
 
         if (result) arr.push(result);
     }
+    console.log(conter);
     return arr
 }
 
@@ -18,11 +22,13 @@ const trashMessage = (mes) => {
         isThanksMessage(mes) ||
         isDeletedMessage(mes)
 }
+const ravTrashMessage=(mes)=>{
+    return mes.includes("להודות לי")
+}
 
 const isThanksMessage = (mes = '') => {
     //  length <=14 >> includes thanks
-
-    return mes.length<=14&&mes.includes("תודה")
+  return mes.length<=14&&mes.includes("תודה")
 }
 
 
@@ -45,8 +51,9 @@ export const createMessageObj = (date, messageContent, rav) => {
     const isQuestion = sender !== (rav || 'הרב ברוך אפרתי, (טאטע)');
     const message = match.slice(1).join("");
     if (isQuestion && trashMessage(message)) return
+    if (!isQuestion&& ravTrashMessage(message)) return
     let res = { date, message, isQuestion }
     if (isQuestion) res.sender = sender
-
     return res
 }
+let arr=parseFileContent(data)
