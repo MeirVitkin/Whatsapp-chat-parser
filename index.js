@@ -1,9 +1,10 @@
-import express from 'express';
+ import express from 'express';
 import cors from 'cors';
 import 'dotenv/config';
 
 import { connect } from './DL/db.js';
 import messageRoutes from './routes/message.route.js';
+import { initIo } from './socket_service/index.js';
 
 
 const app = express();
@@ -14,4 +15,5 @@ app.use(express.json());
 app.use('/messages', messageRoutes);
 const port = process.env.PORT || 5050;
 
-app.listen(port, () => console.log(`#### Server running on port ${port} ####`));
+const server = app.listen(port, () => console.log(`#### Server running on port ${port} ####`));
+initIo(server)

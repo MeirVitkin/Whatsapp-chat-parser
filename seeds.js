@@ -1,4 +1,4 @@
-const { parseFileToArr, createMessageObj, isSamesender} = require("./functions");
+import { parseFileToArr, createMessageObj, isSamesender} from './functions'
 
 
 

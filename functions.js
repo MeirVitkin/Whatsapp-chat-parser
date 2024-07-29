@@ -19,15 +19,7 @@ const trashMessage = (mes) => {
         isDeletedMessage(mes)
 }
 
-const isThanksMessage = (mes = '') => {
-    //  length <=14 >> includes thanks
-    if (mes.length() > 14) return
-        const mesLength = mes.split(" ").length;
-    return (mes.includes('תודה רבה') && mesLength < 4) ||
-        (mes.includes('תודה הרב') && mesLength < 4) ||
-        (mes.includes('תודה רבה הרב') && mesLength < 5) ||
-        (mes.includes('תודה') && mesLength < 3)
-}
+const isThanksMessage = (mes) =>  mes.length <= 14 && mes.includes('תודה') 
 
 
 const isDeletedMessage = (mes) => {

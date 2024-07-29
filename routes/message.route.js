@@ -1,6 +1,7 @@
 import express from 'express';
 import multer, { memoryStorage } from 'multer'
 import { createMessageService, readMessageService, readMessagesService } from '../BL/message.service.js';
+import { getIo } from '../socket_service/index.js';
 
 const router = express.Router(),
     upload = multer({ storage: memoryStorage() });
@@ -12,8 +13,21 @@ router.post('/uploadData', upload.single('file'), async (req, res) => {
         if (!req.file.mimetype === 'text/plain') throw ({ code: 400, msg: 'The file is a text file' })
         const {rav, startDate} = req.body;
         const fileContent = req.file.buffer.toString('utf-8');
-        await createMessageService(fileContent,rav, startDate);
-        res.send({ result: 'ok' })
+        const socketId = req.body.socketId;
+        const io = getIo();
+
+        createMessageService(fileContent, rav, startDate)
+            .then(() => {
+                console.log(' uploaded')
+                io.to(socketId).emit('processingResult', { result: 'ok' });
+            })
+            .catch(err => {
+                io.to(socketId).emit('processingResult', { error: err.msg || err.message || "Error processing the file" });
+            });
+
+        res.send({ result: 'File received and processing started' });
+
+        
 
     } catch (err) {
         res.status(err.code || 405).send(err.msg || err.message || "wrong");
