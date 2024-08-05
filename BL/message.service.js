@@ -6,14 +6,14 @@ export const createMessageService = (fileContent, rav, startDate) => create(pars
 
 export const readMessagesService = (filter = {}) => {
     const { from, to, limit = 50 } = filter;
-    
+
     const start = from ? new Date(from) : null;
     const end = to ? new Date(to) : null;
-    
+
     const query = {};
-    if (start) query.date = { ...query.date, $gte: start };
-    if (end)  query.date = { ...query.date, $lt: end };
-    
+    if (start) query.date = { $gte: start };
+    if (end) query.date = { ...query.date, $lt: end };
+
     return read(query).limit(limit);
 };
 

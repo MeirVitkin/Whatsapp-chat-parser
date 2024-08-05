@@ -12,7 +12,7 @@ router.post('/uploadData', upload.single('file'), async (req, res) => {
         if (!req.file.mimetype === 'text/plain') throw ({ code: 400, msg: 'The file is a text file' })
         const {rav, startDate} = req.body;
         const fileContent = req.file.buffer.toString('utf-8');
-        await createMessageService(fileContent,rav, startDate);
+         createMessageService(fileContent,rav, startDate);
         res.send({ result: 'ok' })
 
     } catch (err) {
