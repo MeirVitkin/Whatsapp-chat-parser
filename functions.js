@@ -18,9 +18,11 @@ const trashMessage = (mes) => {
         isThanksMessage(mes) ||
         isDeletedMessage(mes)
 }
+const ravTrashMessage = (mes) => {
+    return mes.includes("להודות לי")
+}
 
-const isThanksMessage = (mes) =>  mes.length <= 14 && mes.includes('תודה') 
-
+const isThanksMessage = (mes = '') => mes.length <= 14 && mes.includes("תודה")
 
 const isDeletedMessage = (mes) => {
     return mes === 'This message was deleted\r\n';
@@ -34,7 +36,7 @@ export const parseFileToArr = (fileContent, startDate) => {
     let lines = fileContent.split(regex).filter(Boolean);
     if (startDate) {
         const startIndex = createNewBuffer(lines, startDate);
-        lines = lines.slice(startIndex-4);
+        lines = lines.slice(startIndex - 4);
     }
     return lines;
 }
@@ -70,8 +72,8 @@ export const createMessageObj = (date, messageContent, rav) => {
     const isQuestion = sender !== (rav || 'הרב ברוך אפרתי, (טאטע)');
     const message = match.slice(1).join("");
     if (isQuestion && trashMessage(message)) return
+    if (!isQuestion && ravTrashMessage(message)) return
     let res = { date, message, isQuestion }
     if (isQuestion) res.sender = sender
-
     return res
 }
