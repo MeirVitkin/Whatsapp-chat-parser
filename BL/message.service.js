@@ -11,7 +11,7 @@ export const readMessagesService = (filter = {}) => {
     const end = to ? new Date(to) : null;
     
     const query = {};
-    if (start) query.date = { ...query.date, $gte: start };
+    if (start) query.date = { $gte: start };
     if (end)  query.date = { ...query.date, $lt: end };
     
     return read(query).limit(limit);
