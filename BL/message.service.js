@@ -7,13 +7,23 @@ export const createMessageService = (fileContent, rav, startDate) => create(pars
 export const readMessagesService = (filter = {}) => {
     const { from, to, limit = 50 } = filter;
 
-    const start = from ? new Date(from) : null;
-    const end = to ? new Date(to) : null;
+    const start = from ? new Date(new Date(from).setHours(8, 0, 0, 0)) : null;
+    let end;
+
+    if (to) {
+        end = new Date(new Date(to).setHours(23, 0, 0, 0));
+    } else if (start) {
+        end = new Date(start);
+        end.setDate(end.getDate() + 1);
+        end.setHours(23, 0, 0, 0);
+    } else {
+        end = null;
+    }
 
     const query = {};
     if (start) query.date = { $gte: start };
-    if (end)  query.date = { ...query.date, $lt: end };
-    
+    if (end) query.date = { ...query.date, $lt: end };
+
     return read(query).limit(limit);
 };
 
