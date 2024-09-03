@@ -1,6 +1,6 @@
 import express from 'express';
 import multer, { memoryStorage } from 'multer'
-import { createMessageService } from '../BL/message.service.js';
+import { createMessageService, readMessagesService } from '../BL/message.service.js';
 
 const router = express.Router(),
     upload = multer({ storage: memoryStorage() });
